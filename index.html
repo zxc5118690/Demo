@@ -1,0 +1,965 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+  <meta charset="UTF-8" />
+  <title>問卷驅動的個人化 AI 學習路徑推薦助手｜DEMO</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <!-- Tailwind CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    // Tailwind 自訂主題顏色（對應題目指定色）
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            primary: '#2563EB', // 藍色
+            accentGreen: '#22C55E', // 綠色
+            accentYellow: '#FACC15' // 黃色
+          }
+        }
+      }
+    }
+  </script>
+  <style>
+    /* 全站平滑捲動效果 */
+    html {
+      scroll-behavior: smooth;
+    }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 font-sans">
+  <!-- 導覽列 -->
+  <header class="sticky top-0 z-50 border-b border-slate-200 bg-white/90 backdrop-blur">
+    <nav class="max-w-6xl mx-auto px-4 py-3 flex items-center justify-between">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-xl bg-primary/10 flex items-center justify-center">
+          <span class="text-primary text-xl font-bold">AI</span>
+        </div>
+        <div>
+          <div class="font-semibold text-slate-900 text-sm md:text-base">
+            問卷驅動的個人化 AI 學習路徑推薦助手
+          </div>
+          <div class="text-xs text-slate-500 hidden sm:block">
+            Demo 版．假資料展示
+          </div>
+        </div>
+      </div>
+      <div class="hidden md:flex items-center gap-4 text-sm font-medium">
+        <button class="hover:text-primary" data-scroll="hero">首頁</button>
+        <button class="hover:text-primary" data-scroll="questionnaire">填寫問卷示意</button>
+        <button class="hover:text-primary" data-scroll="profile">學習者輪廓</button>
+        <button class="hover:text-primary" data-scroll="courses">推薦課程</button>
+        <button class="hover:text-primary" data-scroll="path">學習路徑</button>
+        <button class="hover:text-primary" data-scroll="growth">成長軌跡</button>
+        <button class="hover:text-primary" data-scroll="future">未來發展</button>
+      </div>
+      <!-- 手機簡易導覽：只有主要 CTA -->
+      <button
+        class="md:hidden text-xs px-3 py-1.5 rounded-full bg-primary text-white"
+        data-scroll="questionnaire"
+      >
+        填寫問卷示意
+      </button>
+    </nav>
+  </header>
+
+  <main class="max-w-6xl mx-auto px-4">
+    <!-- 1️⃣ Hero 區：首頁簡介 -->
+    <section id="hero" class="py-12 md:py-16">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <!-- 文字區塊 -->
+        <div>
+          <h1 class="text-3xl md:text-4xl font-bold text-slate-900 leading-tight">
+            問卷驅動的個人化
+            <span class="text-primary">AI 學習路徑推薦助手</span>
+          </h1>
+          <p class="mt-4 text-slate-600 text-sm md:text-base leading-relaxed">
+            面對海量線上課程，很多自學者卡在「不知道從哪裡開始」。這個 DEMO
+            示意一個概念：透過簡單的學習問卷，產生你的「學習者輪廓」，再從課程海裡挑出適合你的路徑，並把每一步的成長變成一張可以被看見的「學習地圖」。
+          </p>
+
+          <div class="mt-6 flex flex-wrap gap-3">
+            <button
+              class="px-4 py-2 rounded-full text-sm font-semibold bg-primary text-white shadow-sm hover:bg-primary/90 transition"
+              data-scroll="profile"
+            >
+              查看 DEMO 結果
+            </button>
+            <button
+              class="px-4 py-2 rounded-full text-sm font-semibold border border-primary/20 bg-white text-primary hover:border-primary/50 transition"
+              data-scroll="path"
+            >
+              看看學習路徑
+            </button>
+          </div>
+
+          <div class="mt-6 flex flex-wrap gap-2 text-xs text-slate-500">
+            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100">
+              <span class="w-2 h-2 rounded-full bg-primary"></span> 個人化學習建議
+            </span>
+            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100">
+              <span class="w-2 h-2 rounded-full bg-accentGreen"></span> 線上課程整合
+            </span>
+            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-slate-100">
+              <span class="w-2 h-2 rounded-full bg-accentYellow"></span> 成長軌跡可視化
+            </span>
+          </div>
+        </div>
+
+        <!-- 插圖風格區塊：種子長成大樹意象（使用 div 模擬） -->
+        <div class="relative">
+          <div class="rounded-3xl bg-gradient-to-br from-primary/10 via-accentGreen/5 to-accentYellow/10 p-6 md:p-8 h-full flex flex-col justify-between shadow-sm">
+            <div>
+              <p class="text-xs uppercase tracking-wide text-primary font-semibold">
+                視覺隱喻：從種子到大樹
+              </p>
+              <p class="mt-2 text-sm text-slate-600">
+                把每一堂課、每一次練習，都當成是替自己澆的一次水。累積久了，知識會長成一棵有枝有葉的學習大樹。
+              </p>
+            </div>
+
+            <!-- 種子長成大樹小插圖（純 CSS 造型） -->
+            <div class="mt-6 md:mt-8 flex-1 flex items-center justify-center">
+              <div class="relative w-full max-w-xs h-48">
+                <!-- 土壤 -->
+                <div class="absolute bottom-0 left-0 right-0 h-12 bg-amber-100 rounded-3xl border border-amber-200"></div>
+                <!-- 樹幹 -->
+                <div class="absolute bottom-12 left-1/2 -translate-x-1/2 w-4 h-24 bg-amber-700 rounded-full"></div>
+                <!-- 樹冠層一 -->
+                <div class="absolute bottom-28 left-1/2 -translate-x-1/2 w-28 h-16 bg-accentGreen rounded-full opacity-90"></div>
+                <!-- 樹冠層二 -->
+                <div class="absolute bottom-34 left-1/2 -translate-x-1/2 w-20 h-14 bg-accentGreen/80 rounded-full"></div>
+                <!-- 小種子 -->
+                <div class="absolute bottom-4 left-10 w-3 h-3 rounded-full bg-amber-600"></div>
+                <div class="absolute bottom-6 left-9 h-6 w-0.5 bg-emerald-500 rounded-full"></div>
+                <!-- 小節點 / 標籤 -->
+                <div class="absolute -top-2 left-3 text-[10px] px-2 py-1 rounded-full bg-white shadow">
+                  入門課程
+                </div>
+                <div class="absolute top-4 right-0 text-[10px] px-2 py-1 rounded-full bg-white shadow">
+                  技能應用
+                </div>
+                <div class="absolute bottom-20 right-4 text-[10px] px-2 py-1 rounded-full bg-white shadow">
+                  專案作品
+                </div>
+              </div>
+            </div>
+
+            <div class="mt-4 flex items-center justify-between text-[11px] text-slate-500">
+              <span>Demo 僅示意前端畫面，未連接真實 AI 模型</span>
+              <span class="inline-flex items-center gap-1">
+                <span class="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse"></span>
+                構想中功能
+              </span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2️⃣ 問卷示意區 -->
+    <section id="questionnaire" class="py-10 md:py-12">
+      <!-- 區塊標題 -->
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-slate-900">學習問卷（示意用假表單）</h2>
+          <p class="mt-1 text-xs md:text-sm text-slate-500">
+            這裡示意使用者在正式使用服務時，會先填寫一份簡單但有結構的學習問卷。
+          </p>
+        </div>
+        <span class="hidden sm:inline-flex items-center px-2.5 py-1 rounded-full text-[11px] bg-slate-100 text-slate-500">
+          前端 Only．無資料送出
+        </span>
+      </div>
+
+      <!-- 問卷卡片 -->
+      <div class="grid md:grid-cols-[3fr,2fr] gap-6 items-start">
+        <!-- 表單 -->
+        <form class="bg-white rounded-2xl shadow-sm border border-slate-100 p-5 md:p-6 space-y-4">
+          <!-- 想發展的領域 -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              想發展的領域
+            </label>
+            <select
+              class="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-primary/30 focus:border-primary/60 bg-white"
+            >
+              <option>請選擇一個主要方向（示意）</option>
+              <option>AI 與機器學習</option>
+              <option>資料分析與商業數據</option>
+              <option>產品設計與 UX/UI</option>
+              <option>程式設計與前端開發</option>
+              <option>語言與國際溝通</option>
+              <option>商業策略與管理</option>
+            </select>
+          </div>
+
+          <!-- 學習目標 -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              學習的主要目標
+            </label>
+            <div class="grid sm:grid-cols-3 gap-2 text-sm">
+              <label class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 cursor-pointer hover:border-primary/40">
+                <input type="radio" name="goal" class="w-4 h-4 text-primary" />
+                <span>轉職</span>
+              </label>
+              <label class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 cursor-pointer hover:border-primary/40">
+                <input type="radio" name="goal" class="w-4 h-4 text-primary" />
+                <span>在職進修</span>
+              </label>
+              <label class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 cursor-pointer hover:border-primary/40">
+                <input type="radio" name="goal" class="w-4 h-4 text-primary" />
+                <span>興趣探索</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 每週可投入時間 -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              每週可投入學習時間
+            </label>
+            <div class="grid sm:grid-cols-4 gap-2 text-sm">
+              <button type="button" class="time-btn w-full px-2.5 py-2 rounded-lg border border-slate-200 bg-white hover:border-primary/50">
+                1～3 小時
+              </button>
+              <button type="button" class="time-btn w-full px-2.5 py-2 rounded-lg border border-slate-200 bg-white hover:border-primary/50">
+                4～6 小時
+              </button>
+              <button type="button" class="time-btn w-full px-2.5 py-2 rounded-lg border border-slate-200 bg-white hover:border-primary/50">
+                7～10 小時
+              </button>
+              <button type="button" class="time-btn w-full px-2.5 py-2 rounded-lg border border-slate-200 bg-white hover:border-primary/50">
+                10 小時以上
+              </button>
+            </div>
+          </div>
+
+          <!-- 學習偏好 -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              比較偏好的學習方式
+            </label>
+            <div class="grid sm:grid-cols-2 gap-2 text-sm">
+              <label class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 cursor-pointer hover:border-primary/40">
+                <input type="checkbox" />
+                <span>理論先行，打好基礎</span>
+              </label>
+              <label class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 cursor-pointer hover:border-primary/40">
+                <input type="checkbox" />
+                <span>實作為主，邊做邊學</span>
+              </label>
+              <label class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 cursor-pointer hover:border-primary/40">
+                <input type="checkbox" />
+                <span>專案導向，有作品產出</span>
+              </label>
+              <label class="flex items-center gap-2 rounded-lg border border-slate-200 px-3 py-2 cursor-pointer hover:border-primary/40">
+                <input type="checkbox" />
+                <span>短影片與切片內容</span>
+              </label>
+            </div>
+          </div>
+
+          <!-- 目前程度 -->
+          <div>
+            <label class="block text-sm font-medium text-slate-700 mb-1">
+              目前在該領域的程度
+            </label>
+            <div class="flex flex-wrap gap-2 text-sm">
+              <button type="button" class="level-btn px-3 py-1.5 rounded-full border border-slate-200 bg-white hover:border-primary/50">
+                完全新手
+              </button>
+              <button type="button" class="level-btn px-3 py-1.5 rounded-full border border-slate-200 bg-white hover:border-primary/50">
+                有一點概念
+              </button>
+              <button type="button" class="level-btn px-3 py-1.5 rounded-full border border-slate-200 bg-white hover:border-primary/50">
+                已有實作經驗
+              </button>
+            </div>
+          </div>
+
+          <!-- 產生推薦示範結果按鈕 -->
+          <div class="pt-2 flex flex-col sm:flex-row gap-3 items-start sm:items-center justify-between">
+            <button
+              id="generateBtn"
+              class="inline-flex items-center justify-center gap-2 px-4 py-2.5 rounded-full bg-primary text-white text-sm font-semibold shadow-sm hover:bg-primary/90 transition"
+            >
+              產生推薦示範結果
+              <span class="text-xs opacity-80">(假資料)</span>
+            </button>
+            <p class="text-[11px] text-slate-500">
+              按下後將自動捲動至下方的「學習者輪廓」區塊，示意推薦結果畫面。
+            </p>
+          </div>
+        </form>
+
+        <!-- 右側說明小卡：說明問卷如何被使用 -->
+        <div class="space-y-4">
+          <div class="bg-white rounded-2xl border border-slate-100 p-4 md:p-5 shadow-sm">
+            <h3 class="text-sm font-semibold text-slate-900 mb-2">
+              問卷如何被使用？（概念示意）
+            </h3>
+            <ol class="text-xs md:text-sm text-slate-600 space-y-2 list-decimal list-inside">
+              <li>將你的目標、時間與偏好組合成一份「學習者輪廓」。</li>
+              <li>從 Coursera、Udemy、TibaMe、YouTube 等平台抓取課程資料庫（構想）。</li>
+              <li>用 AI 模型將適合的課程排列成一條由淺入深的學習路徑。</li>
+              <li>把學習紀錄轉換成「學習地圖」與「成長軌跡」，就像一棵長大的樹。</li>
+            </ol>
+            <p class="mt-3 text-[11px] text-slate-500">
+              本 DEMO 僅示意前端顯示效果，實際專案中才會接上真實資料與 AI 模型。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 小分隔線 -->
+    <div class="border-t border-dashed border-slate-200 my-6"></div>
+
+    <!-- DEMO 提示 -->
+    <div
+      id="demo-notice"
+      class="hidden md:flex items-center justify-between gap-3 px-4 py-3 mb-6 rounded-2xl bg-primary/5 border border-primary/20 text-xs md:text-sm"
+    >
+      <div class="flex items-center gap-2">
+        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+        <span class="font-semibold text-primary">
+          DEMO 模式已啟動（假資料推薦結果）
+        </span>
+      </div>
+      <p class="text-slate-600">
+        底下的學習者輪廓、課程清單與學習路徑皆為示意用假資料，方便展示畫面。
+      </p>
+    </div>
+
+    <!-- 3️⃣ 學習者輪廓卡片區 -->
+    <section id="profile" class="py-8 md:py-10">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-slate-900">學習者輪廓（示意）</h2>
+          <p class="mt-1 text-xs md:text-sm text-slate-500">
+            根據問卷產生的「學習者 Profile」，讓系統知道你是怎麼學、為什麼學。
+          </p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-[2fr,3fr] gap-6 items-stretch">
+        <!-- 主輪廓卡片 -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 md:p-6 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between gap-3 mb-2">
+              <span class="inline-flex items-center gap-2 text-xs px-2.5 py-1 rounded-full bg-primary/5 text-primary border border-primary/20">
+                <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                目標：轉職資料分析師
+              </span>
+              <span class="text-[11px] text-slate-400">示意用假輪廓</span>
+            </div>
+            <h3 class="text-lg font-semibold text-slate-900">
+              「實作型、需要路線圖的轉職學習者」
+            </h3>
+            <p class="mt-2 text-sm text-slate-600 leading-relaxed">
+              喜歡透過實作與專案學習，對數字與邏輯有興趣，但害怕只看理論。需要有人幫忙把「從零到可以接案」的路線整理清楚，再逐步照表操課。
+            </p>
+
+            <div class="mt-4 grid grid-cols-2 gap-3 text-xs">
+              <div class="space-y-1">
+                <p class="text-slate-500">學習目標</p>
+                <p class="font-medium text-slate-900">
+                  12 個月內轉職為資料分析師
+                </p>
+              </div>
+              <div class="space-y-1">
+                <p class="text-slate-500">每週可投入</p>
+                <p class="font-medium text-slate-900">
+                  每週 3 天，每天約 2 小時
+                </p>
+              </div>
+              <div class="space-y-1">
+                <p class="text-slate-500">學習偏好</p>
+                <p class="font-medium text-slate-900">
+                  實作導向、專案為主、需要明確步驟
+                </p>
+              </div>
+              <div class="space-y-1">
+                <p class="text-slate-500">目前程度</p>
+                <p class="font-medium text-slate-900">
+                  已具備 Excel 基礎，剛接觸 Python
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-5 pt-4 border-t border-dashed border-slate-200 flex flex-wrap gap-2 text-xs">
+            <span class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+              邏輯思考佳
+            </span>
+            <span class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+              害怕抽象公式
+            </span>
+            <span class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+              喜歡視覺化圖表
+            </span>
+            <span class="px-2.5 py-1 rounded-full bg-slate-100 text-slate-700">
+              需要具體進度感
+            </span>
+          </div>
+        </div>
+
+        <!-- 補充標籤與對應策略 -->
+        <div class="space-y-4">
+          <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 md:p-5">
+            <h3 class="text-sm font-semibold text-slate-900 mb-2">
+              系統對此輪廓的解讀（假資料）
+            </h3>
+            <ul class="text-xs md:text-sm text-slate-600 space-y-2">
+              <li>
+                ✔ 適合從
+                <span class="font-medium text-slate-900">「可見成果」</span>
+                的專案入手，而不是從厚重理論開始。
+              </li>
+              <li>
+                ✔ 需要明確拆解成
+                <span class="font-medium text-slate-900">每週可以完成的小任務</span>，降低拖延感。
+              </li>
+              <li>
+                ✔ 對圖表與視覺化敏感，可以走
+                <span class="font-medium text-slate-900">資料視覺化</span> 相關路線。
+              </li>
+            </ul>
+
+            <div class="mt-3 flex flex-wrap gap-2 text-[11px]">
+              <span class="px-2 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                推薦學習型態：專案導向
+              </span>
+              <span class="px-2 py-1 rounded-full bg-sky-50 text-sky-700 border border-sky-100">
+                建議追蹤方式：學習地圖
+              </span>
+            </div>
+          </div>
+
+          <div class="bg-gradient-to-br from-primary/5 via-accentGreen/5 to-accentYellow/10 rounded-2xl border border-slate-100 p-4 text-xs md:text-sm text-slate-700">
+            <p class="font-semibold text-slate-900 mb-1">
+              為什麼要做「學習者輪廓」？
+            </p>
+            <p>
+              不是只是推薦熱門課程，而是先搞清楚你是哪一種學習者。輪廓會影響推薦的課程長度、深度與順序，甚至包括提醒頻率與學習介面風格。
+            </p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 4️⃣ 推薦課程清單區 -->
+    <section id="courses" class="py-8 md:py-10">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-slate-900">推薦課程清單（假資料）</h2>
+          <p class="mt-1 text-xs md:text-sm text-slate-500">
+            結合 Coursera、Udemy、TibaMe、YouTube 等平台的課程資訊，示意如何排列成一個適合你的清單。
+          </p>
+        </div>
+      </div>
+
+      <!-- 課程清單表格風格卡片 -->
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm overflow-hidden">
+        <div class="px-4 py-3 flex items-center justify-between text-xs md:text-sm bg-slate-50 border-b border-slate-100">
+          <span class="font-medium text-slate-700">為你挑出的課程組合（資料分析轉職路線示意）</span>
+          <span class="text-[11px] text-slate-500">推薦指數僅為視覺示意</span>
+        </div>
+        <div class="divide-y divide-slate-100">
+          <!-- 課程列：可依需求調整假資料 -->
+          <div class="px-4 py-3 grid md:grid-cols-[3fr,2fr,2fr,2fr] gap-3 text-xs md:text-sm items-center">
+            <div>
+              <p class="font-semibold text-slate-900">
+                Python 資料分析入門：從零到處理資料表
+              </p>
+              <p class="text-[11px] text-slate-500">平台：Coursera．難度：入門</p>
+            </div>
+            <div class="text-[11px] md:text-xs text-slate-600 space-y-1">
+              <p>課程風格：實作為主，搭配簡短講解</p>
+              <p>標籤：Python．資料處理．Pandas</p>
+            </div>
+            <div class="flex flex-col gap-1">
+              <p class="text-[11px] text-slate-500">推薦指數</p>
+              <!-- 推薦指數條 -->
+              <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div class="h-full w-11/12 rounded-full bg-primary/80"></div>
+              </div>
+              <p class="text-[11px] text-slate-500">適合當作第一門主修課程</p>
+            </div>
+            <div class="text-[11px] text-slate-600">
+              <p class="font-medium text-slate-900 mb-1">為什麼推薦給你？</p>
+              <p>
+                以實作為主，不需要太多先備數學知識，適合你「怕理論但願意動手做」的特質。
+              </p>
+            </div>
+          </div>
+
+          <div class="px-4 py-3 grid md:grid-cols-[3fr,2fr,2fr,2fr] gap-3 text-xs md:text-sm items-center">
+            <div>
+              <p class="font-semibold text-slate-900">
+                Excel 到資料視覺化：建立第一個商業儀表板
+              </p>
+              <p class="text-[11px] text-slate-500">平台：TibaMe．難度：初階</p>
+            </div>
+            <div class="text-[11px] md:text-xs text-slate-600 space-y-1">
+              <p>課程風格：案例導向，搭配實際報表</p>
+              <p>標籤：Excel．資料視覺化．商業報表</p>
+            </div>
+            <div class="flex flex-col gap-1">
+              <p class="text-[11px] text-slate-500">推薦指數</p>
+              <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div class="h-full w-10/12 rounded-full bg-accentGreen"></div>
+              </div>
+              <p class="text-[11px] text-slate-500">搭配 Python 課程，銜接現職工作場景</p>
+            </div>
+            <div class="text-[11px] text-slate-600">
+              <p class="font-medium text-slate-900 mb-1">為什麼推薦給你？</p>
+              <p>
+                你已有 Excel 基礎，透過視覺化儀表板可以快速看到成果，增加成就感。
+              </p>
+            </div>
+          </div>
+
+          <div class="px-4 py-3 grid md:grid-cols-[3fr,2fr,2fr,2fr] gap-3 text-xs md:text-sm items-center">
+            <div>
+              <p class="font-semibold text-slate-900">
+                SQL 資料庫查詢實務：從 SELECT 到 JOIN
+              </p>
+              <p class="text-[11px] text-slate-500">平台：Udemy．難度：初階偏中階</p>
+            </div>
+            <div class="text-[11px] md:text-xs text-slate-600 space-y-1">
+              <p>課程風格：練習題很多，附下載資料庫</p>
+              <p>標籤：SQL．資料庫．查詢語法</p>
+            </div>
+            <div class="flex flex-col gap-1">
+              <p class="text-[11px] text-slate-500">推薦指數</p>
+              <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div class="h-full w-9/12 rounded-full bg-primary/80"></div>
+              </div>
+              <p class="text-[11px] text-slate-500">轉職資料分析師的必備技能之一</p>
+            </div>
+            <div class="text-[11px] text-slate-600">
+              <p class="font-medium text-slate-900 mb-1">為什麼推薦給你？</p>
+              <p>
+                用大量實作題補強資料庫概念，延續你偏好「動手做」的學習方式。
+              </p>
+            </div>
+          </div>
+
+          <div class="px-4 py-3 grid md:grid-cols-[3fr,2fr,2fr,2fr] gap-3 text-xs md:text-sm items-center">
+            <div>
+              <p class="font-semibold text-slate-900">
+                商業數據分析專題：用真實案例完成報告
+              </p>
+              <p class="text-[11px] text-slate-500">平台：Coursera．難度：進階</p>
+            </div>
+            <div class="text-[11px] md:text-xs text-slate-600 space-y-1">
+              <p>課程風格：專案制，從資料清理到簡報</p>
+              <p>標籤：專案．故事說明．簡報呈現</p>
+            </div>
+            <div class="flex flex-col gap-1">
+              <p class="text-[11px] text-slate-500">推薦指數</p>
+              <div class="w-full h-2 rounded-full bg-slate-100 overflow-hidden">
+                <div class="h-full w-10/12 rounded-full bg-accentYellow"></div>
+              </div>
+              <p class="text-[11px] text-slate-500">可作為轉職作品集的一部分</p>
+            </div>
+            <div class="text-[11px] text-slate-600">
+              <p class="font-medium text-slate-900 mb-1">為什麼推薦給你？</p>
+              <p>
+                幫你的學習成果收斂成具體專題，適合放進履歷或面試作品集中。
+              </p>
+            </div>
+          </div>
+
+          <!-- 小提示列 -->
+          <div class="px-4 py-2 bg-slate-50 text-[11px] text-slate-500 flex flex-wrap items-center justify-between gap-2">
+            <span>實際專案中，課程將來自多個平台的即時資料與評價。</span>
+            <span>此處僅為前端假資料，用於 DEMO 展示。</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 5️⃣ 學習路徑視覺化區（時間軸 / Stepper） -->
+    <section id="path" class="py-8 md:py-10">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-slate-900">學習路徑地圖（示意）</h2>
+          <p class="mt-1 text-xs md:text-sm text-slate-500">
+            從入門到進階，把課程排列成「看得懂的路線圖」，而不是一堆零散的清單。
+          </p>
+        </div>
+        <button
+          class="hidden sm:inline-flex items-center px-3 py-1.5 rounded-full text-xs bg-primary/5 text-primary border border-primary/20"
+          data-scroll="courses"
+        >
+          回到課程清單
+        </button>
+      </div>
+
+      <!-- Stepper / Timeline -->
+      <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 md:p-6">
+        <div class="flex flex-col md:flex-row md:items-center md:justify-between gap-3 mb-5">
+          <p class="text-xs md:text-sm text-slate-600">
+            以「資料分析轉職」為例，示意從「基礎程式」到「資料視覺化」再到「專案實戰」的路徑。
+          </p>
+          <div class="flex flex-wrap gap-2 text-[11px]">
+            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-primary/10 text-primary">
+              ● 必修
+            </span>
+            <span class="inline-flex items-center gap-1 px-2 py-1 rounded-full bg-emerald-50 text-emerald-700">
+              ○ 建議搭配
+            </span>
+          </div>
+        </div>
+
+        <!-- 橫向步驟條 -->
+        <div class="relative overflow-x-auto pb-3">
+          <ol class="flex min-w-max items-stretch gap-6">
+            <!-- 步驟 1 -->
+            <li class="relative flex-1 min-w-[220px]">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold">
+                  1
+                </div>
+                <div>
+                  <p class="text-xs font-semibold text-slate-900">基礎程式與資料思維</p>
+                  <p class="text-[11px] text-slate-500">第 1 ～ 2 個月</p>
+                </div>
+              </div>
+              <div class="pl-9 space-y-2 text-[11px] text-slate-600">
+                <p>目標：熟悉 Python 基本語法與資料型態。</p>
+                <ul class="space-y-1">
+                  <li>● Python 資料分析入門：從零到處理資料表</li>
+                  <li>○ Python 基礎語法速成影片（YouTube 精選清單）</li>
+                </ul>
+              </div>
+              <!-- 連接線 -->
+              <div class="hidden md:block absolute top-4 left-7 right-[-12px] h-[2px] bg-slate-200 z-[-1]"></div>
+            </li>
+
+            <!-- 步驟 2 -->
+            <li class="relative flex-1 min-w-[220px]">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold">
+                  2
+                </div>
+                <div>
+                  <p class="text-xs font-semibold text-slate-900">資料處理與整理</p>
+                  <p class="text-[11px] text-slate-500">第 3 ～ 4 個月</p>
+                </div>
+              </div>
+              <div class="pl-9 space-y-2 text-[11px] text-slate-600">
+                <p>目標：能獨立清理資料，處理缺值與欄位轉換。</p>
+                <ul class="space-y-1">
+                  <li>● Python 資料分析入門（中後段章節）</li>
+                  <li>○ Kaggle 入門競賽教學影片（YouTube）</li>
+                </ul>
+              </div>
+              <div class="hidden md:block absolute top-4 left-7 right-[-12px] h-[2px] bg-slate-200 z-[-1]"></div>
+            </li>
+
+            <!-- 步驟 3 -->
+            <li class="relative flex-1 min-w-[220px]">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold">
+                  3
+                </div>
+                <div>
+                  <p class="text-xs font-semibold text-slate-900">資料視覺化與報表</p>
+                  <p class="text-[11px] text-slate-500">第 5 ～ 6 個月</p>
+                </div>
+              </div>
+              <div class="pl-9 space-y-2 text-[11px] text-slate-600">
+                <p>目標：能用圖表說故事，做出商業儀表板。</p>
+                <ul class="space-y-1">
+                  <li>● Excel 到資料視覺化：建立第一個商業儀表板</li>
+                  <li>○ Python 視覺化（Matplotlib / Seaborn 基礎課）</li>
+                </ul>
+              </div>
+              <div class="hidden md:block absolute top-4 left-7 right-[-12px] h-[2px] bg-slate-200 z-[-1]"></div>
+            </li>
+
+            <!-- 步驟 4 -->
+            <li class="relative flex-1 min-w-[220px]">
+              <div class="flex items-center gap-2 mb-2">
+                <div class="w-7 h-7 rounded-full bg-primary text-white flex items-center justify-center text-xs font-semibold">
+                  4
+                </div>
+                <div>
+                  <p class="text-xs font-semibold text-slate-900">專題實戰與作品集</p>
+                  <p class="text-[11px] text-slate-500">第 7 ～ 9 個月</p>
+                </div>
+              </div>
+              <div class="pl-9 space-y-2 text-[11px] text-slate-600">
+                <p>目標：完成一個具備商業情境的資料分析專案。</p>
+                <ul class="space-y-1">
+                  <li>● 商業數據分析專題：用真實案例完成報告</li>
+                  <li>○ 個人自選專題（例如：電商訂單分析）</li>
+                </ul>
+              </div>
+            </li>
+          </ol>
+        </div>
+
+        <p class="mt-4 text-[11px] text-slate-500">
+          未來實作版本中，路徑長度與節奏會根據你的「每週可投入時間」與「學習偏好」自動調整，例如縮短單次學習時間、拉長總週期等。
+        </p>
+      </div>
+    </section>
+
+    <!-- 6️⃣ 成長軌跡與學習樹概念區 -->
+    <section id="growth" class="py-8 md:py-10">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-slate-900">成長軌跡與學習樹（概念示意）</h2>
+          <p class="mt-1 text-xs md:text-sm text-slate-500">
+            不只是「上完幾堂課」，而是把每一段學習紀錄，累積成一棵長大的知識樹。
+          </p>
+        </div>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-6 items-start">
+        <!-- 左：文字說明＋ tag -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 md:p-6">
+          <p class="text-sm md:text-base text-slate-700 leading-relaxed">
+            想像你現在在經營一棵屬於自己的「學習樹」。每完成一門課，就像長出一片新葉；每個專案，就像多了一條穩固的樹枝。久而久之，你可以很清楚地看到，自己在哪些領域已經長得很茂密，哪一些地方還只是剛發芽。
+          </p>
+
+          <div class="mt-4 space-y-3">
+            <p class="text-xs font-semibold text-slate-500">
+              已完成的領域（樹幹與主枝幹）
+            </p>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                Python 基礎語法
+              </span>
+              <span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                Excel 資料整理
+              </span>
+              <span class="px-2.5 py-1 rounded-full bg-emerald-50 text-emerald-700 border border-emerald-100">
+                資料視覺化入門
+              </span>
+            </div>
+
+            <p class="text-xs font-semibold text-slate-500 pt-2">
+              正在擴展中的領域（正在長的樹枝）
+            </p>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="px-2.5 py-1 rounded-full bg-primary/5 text-primary border border-primary/20">
+                SQL 與資料庫
+              </span>
+              <span class="px-2.5 py-1 rounded-full bg-primary/5 text-primary border border-primary/20">
+                商業情境分析
+              </span>
+            </div>
+
+            <p class="text-xs font-semibold text-slate-500 pt-2">
+              未來可延伸的方向（想長出去的枝葉）
+            </p>
+            <div class="flex flex-wrap gap-2 text-xs">
+              <span class="px-2.5 py-1 rounded-full bg-accentYellow/10 text-amber-700 border border-accentYellow/50">
+                機器學習入門
+              </span>
+              <span class="px-2.5 py-1 rounded-full bg-accentYellow/10 text-amber-700 border border-accentYellow/50">
+                A/B Test 與實驗設計
+              </span>
+              <span class="px-2.5 py-1 rounded-full bg-accentYellow/10 text-amber-700 border border-accentYellow/50">
+                數據驅動決策工作坊
+              </span>
+            </div>
+          </div>
+        </div>
+
+        <!-- 右：分段式條列顯示成長軌跡 -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-5 md:p-6">
+          <h3 class="text-sm font-semibold text-slate-900 mb-3">
+            成長軌跡時間線（示意）
+          </h3>
+          <ol class="relative border-l border-slate-200 pl-4 space-y-4 text-xs md:text-sm">
+            <li class="relative">
+              <div class="absolute -left-2.5 top-1 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white shadow"></div>
+              <p class="text-[11px] text-slate-500">第 1 ～ 2 個月</p>
+              <p class="font-semibold text-slate-900">完成 Python 入門課程與第一個小專案</p>
+              <p class="text-slate-600">
+                把日常生活支出整理成一份簡單的資料表與圖表，建立對程式與資料處理的信心。
+              </p>
+            </li>
+            <li class="relative">
+              <div class="absolute -left-2.5 top-1 w-3 h-3 rounded-full bg-emerald-500 border-2 border-white shadow"></div>
+              <p class="text-[11px] text-slate-500">第 3 ～ 4 個月</p>
+              <p class="font-semibold text-slate-900">建立第一個 Excel 商業儀表板</p>
+              <p class="text-slate-600">
+                用公司內部或公開資料，做出銷售儀表板，開始能用圖表跟同事解釋數字。
+              </p>
+            </li>
+            <li class="relative">
+              <div class="absolute -left-2.5 top-1 w-3 h-3 rounded-full bg-primary border-2 border-white shadow"></div>
+              <p class="text-[11px] text-slate-500">第 5 ～ 6 個月（進行中）</p>
+              <p class="font-semibold text-slate-900">學習 SQL 與資料庫操作</p>
+              <p class="text-slate-600">
+                練習從資料庫直接撈出需要的資料，開始理解「資料是怎麼被儲存的」。
+              </p>
+            </li>
+            <li class="relative">
+              <div class="absolute -left-2.5 top-1 w-3 h-3 rounded-full bg-slate-300 border-2 border-white shadow"></div>
+              <p class="text-[11px] text-slate-500">第 7 ～ 9 個月（預計）</p>
+              <p class="font-semibold text-slate-900">完成一份可放進作品集的分析報告</p>
+              <p class="text-slate-600">
+                結合 Python、Excel、SQL 與視覺化工具，針對一個議題做完整分析專案。
+              </p>
+            </li>
+          </ol>
+          <p class="mt-3 text-[11px] text-slate-500">
+            未來可以想像，實際系統會根據你的學習紀錄，自動把這條線畫出來，甚至標出你卡關的地方與值得慶祝的里程碑。
+          </p>
+        </div>
+      </div>
+    </section>
+
+    <!-- 7️⃣ 未來跨域發展建議區 -->
+    <section id="future" class="py-8 md:py-10">
+      <div class="flex items-center justify-between gap-3 mb-4">
+        <div>
+          <h2 class="text-xl md:text-2xl font-bold text-slate-900">未來跨域發展建議（示意）</h2>
+          <p class="mt-1 text-xs md:text-sm text-slate-500">
+            當系統累積了足夠的學習紀錄與輪廓資料之後，可以進一步推估你適合往哪些跨域方向延伸。
+          </p>
+        </div>
+        <span class="inline-flex items-center px-3 py-1.5 rounded-full text-[11px] bg-slate-100 text-slate-500">
+          未來延伸功能示意．尚未實作
+        </span>
+      </div>
+
+      <div class="grid md:grid-cols-3 gap-4 md:gap-6">
+        <!-- 卡片 1 -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 md:p-5">
+          <p class="text-xs uppercase tracking-wide text-primary font-semibold mb-1">
+            案例 A
+          </p>
+          <h3 class="text-sm font-semibold text-slate-900 mb-2">
+            商業數據決策顧問方向
+          </h3>
+          <p class="text-xs md:text-sm text-slate-600">
+            你同時具備資料分析能力與商業背景，系統推估你適合往「商業數據決策」延伸，例如擔任數據分析顧問或內部數據 PM，協助團隊用數字說故事。
+          </p>
+        </div>
+
+        <!-- 卡片 2 -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 md:p-5">
+          <p class="text-xs uppercase tracking-wide text-primary font-semibold mb-1">
+            案例 B
+          </p>
+          <h3 class="text-sm font-semibold text-slate-900 mb-2">
+            互動體驗設計與資料可視化
+          </h3>
+          <p class="text-xs md:text-sm text-slate-600">
+            如果你同時學了前端程式與設計相關課程，系統可能會建議你往「互動體驗設計」發展，專注在把複雜的數據變成好理解的互動儀表板。
+          </p>
+        </div>
+
+        <!-- 卡片 3 -->
+        <div class="bg-white rounded-2xl border border-slate-100 shadow-sm p-4 md:p-5">
+          <p class="text-xs uppercase tracking-wide text-primary font-semibold mb-1">
+            案例 C
+          </p>
+          <h3 class="text-sm font-semibold text-slate-900 mb-2">
+            教學設計與 AI 輔助教學
+          </h3>
+          <p class="text-xs md:text-sm text-slate-600">
+            如果你的學習紀錄顯示你常整理筆記、做教學型專案，系統可以建議你往「教學設計」或「AI 輔助教學內容設計」發展，幫助別人也走過這條路。
+          </p>
+        </div>
+      </div>
+
+      <p class="mt-4 text-[11px] text-slate-500">
+        在真正的產品中，跨域建議會結合你的學習歷程、職涯目標與市場職缺資料。此處僅為概念 DEMO，說明未來可能發展方向。
+      </p>
+    </section>
+  </main>
+
+  <!-- 8️⃣ 頁尾 Footer -->
+  <footer class="mt-8 border-t border-slate-200 bg-white">
+    <div class="max-w-6xl mx-auto px-4 py-6 text-[11px] md:text-xs text-slate-500 flex flex-col md:flex-row md:items-center md:justify-between gap-2">
+      <div>
+        <span class="font-semibold text-slate-700">問卷驅動的個人化 AI 學習路徑推薦助手</span>
+        <span class="mx-2 text-slate-300">|</span>
+        <span>專題 DEMO 展示頁</span>
+      </div>
+      <div>
+        <span>作者：Your Name / Placeholder</span>
+        <span class="mx-2 text-slate-300">|</span>
+        <span>本頁僅為前端 DEMO，不連接真實資料或 AI 模型</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- 🔧 簡易互動腳本：按鈕捲動與 DEMO 狀態顯示 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', function () {
+      // 共用捲動函式
+      function scrollToSection(id) {
+        const el = document.getElementById(id);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+      }
+
+      // 處理 data-scroll 的按鈕（導覽列＋ CTA）
+      document.querySelectorAll('[data-scroll]').forEach(function (btn) {
+        btn.addEventListener('click', function () {
+          const target = btn.getAttribute('data-scroll');
+          if (target) scrollToSection(target);
+        });
+      });
+
+      // 模擬「產生推薦示範結果」：只做捲動與顯示 DEMO 提示
+      const generateBtn = document.getElementById('generateBtn');
+      const demoNotice = document.getElementById('demo-notice');
+
+      if (generateBtn) {
+        generateBtn.addEventListener('click', function (e) {
+          e.preventDefault();
+          if (demoNotice) {
+            demoNotice.classList.remove('hidden');
+          }
+          scrollToSection('profile');
+        });
+      }
+
+      // 點選時間與程度的按鈕時，加上簡單的選取狀態（純視覺效果）
+      function setupToggleGroup(selector, activeClasses, inactiveClasses) {
+        const buttons = document.querySelectorAll(selector);
+        buttons.forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            buttons.forEach(function (b) {
+              b.classList.remove(...activeClasses);
+              b.classList.add(...inactiveClasses);
+            });
+            btn.classList.remove(...inactiveClasses);
+            btn.classList.add(...activeClasses);
+          });
+        });
+      }
+
+      // 每週可投入時間按鈕
+      setupToggleGroup(
+        '.time-btn',
+        ['border-primary', 'bg-primary/5', 'text-primary'],
+        ['border-slate-200', 'bg-white', 'text-slate-700']
+      );
+
+      // 目前程度按鈕
+      setupToggleGroup(
+        '.level-btn',
+        ['border-primary', 'bg-primary/5', 'text-primary'],
+        ['border-slate-200', 'bg-white', 'text-slate-700']
+      );
+    });
+  </script>
+</body>
+</html>
+
